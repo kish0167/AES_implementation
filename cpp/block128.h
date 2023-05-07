@@ -112,12 +112,26 @@ public:
             for (int j = 0; j < 4; ++j)
                 this->byteMatrix[i][j].Sbox(0);
     }
+    void invSubBytes(){
+        for (int i = 0; i < 4; ++i)
+            for (int j = 0; j < 4; ++j)
+                this->byteMatrix[i][j].Sbox(1);
+    }
     void shiftRows(){
         block128 shifted;
         for (int i = 0; i < 4; ++i) {
             vector<GF2_8> tmp = this->getRow(i);
             for (int j = 0; j < 4; ++j)
                 shifted.byteMatrix[i][j]=tmp[(i+j)%4];
+        }
+        this->byteMatrix = shifted.byteMatrix;
+    }
+    void invShiftRows(){
+        block128 shifted;
+        for (int i = 0; i < 4; ++i) {
+            vector<GF2_8> tmp = this->getRow(i);
+            for (int j = 0; j < 4; ++j)
+                shifted.byteMatrix[i][j]=tmp[(j+(4-i))%4];
         }
         this->byteMatrix = shifted.byteMatrix;
     }
@@ -139,6 +153,36 @@ public:
         predefine.byteMatrix[3][1].Set(1);
         predefine.byteMatrix[3][2].Set(1);
         predefine.byteMatrix[3][3].Set(2);
+        block128 mixed;
+        for (int i = 0; i < 4; ++i) {
+            for (int j = 0; j < 4; ++j) {
+                for (int k = 0; k < 4; ++k) {
+                    GF2_8 tmp =0;
+                    tmp = predefine.byteMatrix[i][k]*this->byteMatrix[k][j];
+                    mixed.byteMatrix[i][j]=mixed.byteMatrix[i][j]+tmp;
+                }
+            }
+        }
+        this->byteMatrix=mixed.byteMatrix;
+    }
+    void invMixColumns(){
+        block128 predefine;
+        predefine.byteMatrix[0][0].Set(14);
+        predefine.byteMatrix[0][1].Set(11);
+        predefine.byteMatrix[0][2].Set(13);
+        predefine.byteMatrix[0][3].Set(9);
+        predefine.byteMatrix[1][0].Set(9);
+        predefine.byteMatrix[1][1].Set(14);
+        predefine.byteMatrix[1][2].Set(11);
+        predefine.byteMatrix[1][3].Set(13);
+        predefine.byteMatrix[2][0].Set(13);
+        predefine.byteMatrix[2][1].Set(9);
+        predefine.byteMatrix[2][2].Set(14);
+        predefine.byteMatrix[2][3].Set(11);
+        predefine.byteMatrix[3][0].Set(11);
+        predefine.byteMatrix[3][1].Set(13);
+        predefine.byteMatrix[3][2].Set(9);
+        predefine.byteMatrix[3][3].Set(14);
         block128 mixed;
         for (int i = 0; i < 4; ++i) {
             for (int j = 0; j < 4; ++j) {
