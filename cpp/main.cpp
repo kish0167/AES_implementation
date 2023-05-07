@@ -10,14 +10,15 @@ void encryptText(){
     GF2_8 buf =0;
     vector<block128> message;
     cout<<"enter text\n";
-    string text;
-    cin>>text;
+    string text,trash;
+    getline(cin,trash);
+    getline(cin,text);
     int length = text.size()-text.size()%16+16;
     for (int i = 0; i < (length-16)/16; ++i) {
         vector<GF2_8> part16;
         block128 temp;
         for (int j = 0; j < 16; ++j) {
-            buf.Set((int)text[i*4+j]);
+            buf.Set((int)text[i*16+j]);
             part16.push_back(buf);
         }
         temp.SetMatrix(part16);
@@ -87,13 +88,20 @@ void decryptText(){
         for (int j = 0; j < 4; ++j) {
             for (int k = 0; k < 4; ++k) {
                 int c=x.getData().GetMatrix()[j][k].GetInt();
-                cout<<(char)c<<"";
+                cout<<(char)c;
             }
         }
     }
 }
 int main() {
-    //encryptText();
-    decryptText();
+    int c=0;
+    while(c!=3){
+        cout<<"\n\n?\n1 encrypt\n2 decrypt\n3 stop\n";
+        cin>>c;
+        if (c==1)
+            encryptText();
+        else if(c==2)
+            decryptText();
+    }
     return 0;
 }
