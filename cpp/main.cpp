@@ -49,9 +49,13 @@ void encryptText(){
     }
 }
 void decryptText(){
-    cout<<"enter message\n";
-    string message;
-    cin >> message;
+    cout<<"enter message and 'end' at the end\n";
+    string message, t="0";
+    cin>>t;
+    while(t!="end") {
+        message+=t;
+        cin >> t;
+    }
     block128 buf;
     GF2_8 temp=0;
     vector<block128> text;
@@ -73,7 +77,6 @@ void decryptText(){
         buf.SetMatrix(row16);
         text.push_back(buf);
     }
-    text[0].print();
     cout<<"enter the key\n";
     block128 key;
     key.createByHand();
@@ -90,7 +93,7 @@ void decryptText(){
     }
 }
 int main() {
-    encryptText();
-    //decryptText();
+    //encryptText();
+    decryptText();
     return 0;
 }
