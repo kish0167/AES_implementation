@@ -26,7 +26,7 @@ public:
             result.subBytes();
             result.shiftRows();
             result.mixColumns();
-            result.addRoundKey(keySchedule[5]);
+            result.addRoundKey(keySchedule[i]);
         }
         result.subBytes();
         result.shiftRows();
@@ -42,7 +42,7 @@ public:
         result.invShiftRows();
         result.invSubBytes();
         for (int i = 9; i >= 0; --i) {
-            result.addRoundKey(keySchedule[5]);
+            result.addRoundKey(keySchedule[i]);
             result.invMixColumns();
             result.invShiftRows();
             result.invSubBytes();

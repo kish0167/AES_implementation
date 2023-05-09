@@ -103,5 +103,11 @@ int main() {
         else if(c==2)
             decryptText();
     }
+//    GF2_8 a=1, two = 2;
+//    for (int i = 0; i < 12; ++i) {
+//        cout<<a.GetHex()<<endl;
+//        a=a*two;
+//    }
+
     return 0;
 }
