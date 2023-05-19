@@ -94,6 +94,13 @@ void decryptText(){
     }
 }
 int main() {
+//    GF2_8 A=0;
+//    for (int i = 0; i < 256; ++i) {
+//       A.Set(i);
+//       cout<<"\twhen x\""<<A.GetHex()<<"\" => output8 <= x\"";
+//       A.Sbox(0);
+//       cout<<A.GetHex()<<"\";\n";
+//    }
     int c=0;
     while(c!=3){
         cout<<"\n\n?\n1 encrypt\n2 decrypt\n3 stop\n";
@@ -108,6 +115,21 @@ int main() {
 //        cout<<a.GetHex()<<endl;
 //        a=a*two;
 //    }
-
+//    GF2_8 a=1,x=5;
+//    vector<GF2_8> A,F;
+//    for (int i = 0; i < 15; ++i)
+//        A.push_back(a);
+//    A.push_back(x);
+//    F.push_back(x);
+//    for (int i = 1; i < 16; ++i)
+//        F.push_back(a);
+//    block128 b,v;
+//    b.SetMatrix(A);
+//    v.SetMatrix(F);
+//    AES c;
+//    c.setData(b);
+//    c.print();
+//    c.encrypt(v);
+//    c.print();
     return 0;
 }

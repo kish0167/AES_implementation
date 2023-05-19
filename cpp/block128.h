@@ -19,7 +19,7 @@ private:
         byteMatrix[n]=row;
     }
     vector<GF2_8> gFunc(block128 lastKey,int round){
-        if(round<1 || round>10) {cout<<"wrong round number"<<endl;}
+        if(round<0 || round>9) {cout<<"wrong round number"<<endl;}
         int RC[10] ={1,2,4,8,16,32,64,128,27,54};
         vector<GF2_8> newRow = lastKey.getRow(3);
         GF2_8 tmp=newRow[0];
@@ -30,6 +30,7 @@ private:
             newRow[i].Sbox(0);
         GF2_8 rc = RC[round];
         newRow[0] = newRow[0] + rc;
+        //cout<<endl<<newRow[0].GetHex()<<newRow[1].GetHex()<<newRow[2].GetHex()<<newRow[3].GetHex()<<endl;
         return newRow;
     }
 public:
@@ -49,7 +50,7 @@ public:
         for (int i = 0; i < 4; ++i){
             vector<GF2_8> row;
             for (int j = 0; j < 4; ++j)
-                row.push_back(input[i*4+j]);
+                row.push_back(input[i+j*4]);
             tmp.push_back(row);
         }
         byteMatrix=tmp;
@@ -76,6 +77,7 @@ public:
             }
             cout<<endl;
         }
+        cout<<endl;
     }
     vector<block128> KeyExpansion(){
         vector<block128> expandedKey;
@@ -86,7 +88,7 @@ public:
             for (int k = 0; k < 4; ++k){
                 GF2_8 a=0,b=0;
                 a=lastKey.getRow(0)[k];
-                b= gFunc(lastKey,i)[k];
+                b= gFunc(lastKey,i-1)[k];
                 sum.push_back(a+b);
             }
             rKey.setRow(0,sum);
@@ -208,6 +210,5 @@ public:
         this->SetMatrix(row);
         cout<<endl;
     }
-
 };
 #endif //AES_BLOCK128_H
