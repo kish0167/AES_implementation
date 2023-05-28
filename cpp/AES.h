@@ -22,7 +22,8 @@ public:
         result=data;
         vector<block128> keySchedule;
         keySchedule = key.KeyExpansion();
-       for (int i = 0; i < 10; ++i) {
+        result.addRoundKey(keySchedule[0]);
+       for (int i = 1; i < 10; ++i) {
             result.subBytes();
             result.shiftRows();
             result.mixColumns();
@@ -41,12 +42,13 @@ public:
         result.addRoundKey(keySchedule[10]);
         result.invShiftRows();
         result.invSubBytes();
-        for (int i = 9; i >= 0; --i) {
+        for (int i = 9; i >= 1; --i) {
             result.addRoundKey(keySchedule[i]);
             result.invMixColumns();
             result.invShiftRows();
             result.invSubBytes();
         }
+        result.addRoundKey(keySchedule[0]);
         data=result;
     }
     void create(){

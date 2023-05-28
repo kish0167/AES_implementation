@@ -34,6 +34,7 @@ void encryptText(){
     for (int i = 0; i < 16-text.size()%16; ++i)
         part16.push_back(buf);
     temp.SetMatrix(part16);
+    temp.print();
     message.push_back(temp);
     cout<<"enter the key\n";
     key.createByHand();
@@ -61,7 +62,7 @@ void decryptText(){
     GF2_8 temp=0;
     vector<block128> text;
     for (int i = 0; i < message.size()/32; ++i) {
-        vector<GF2_8> row16;
+        vector<GF2_8> row16, inv16;
         for (int j = 0; j < 4; ++j) {
             for (int k = 0; k < 4; ++k) {
                 int a=0,b=0,c=0;
@@ -75,7 +76,10 @@ void decryptText(){
                 row16.push_back(temp);
             }
         }
-        buf.SetMatrix(row16);
+        for (int j = 0; j < 4; ++j)
+            for (int k = 0; k < 4; ++k)
+                inv16.push_back(row16[j+k*4]);
+        buf.SetMatrix(inv16);
         text.push_back(buf);
     }
     cout<<"enter the key\n";
@@ -87,7 +91,7 @@ void decryptText(){
         x.decrypt(key);
         for (int j = 0; j < 4; ++j) {
             for (int k = 0; k < 4; ++k) {
-                int c=x.getData().GetMatrix()[j][k].GetInt();
+                int c=x.getData().GetMatrix()[k][j].GetInt();
                 cout<<(char)c;
             }
         }
